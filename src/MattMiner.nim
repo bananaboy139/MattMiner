@@ -7,7 +7,6 @@
 ]#
 import os
 import json
-#import nigui
 
 const
   mineCraftFolderJson = "Minecraft Folder"
@@ -16,6 +15,7 @@ const
 var 
   mineCraftFolder : string
   mattFolder : string
+
 
 const settingsFile : string = "MattMiner.cfg"
 
@@ -28,19 +28,18 @@ var
   ResourcePacksFolder: MineFolder = [joinPath(mineCraftFolder, "ResourcePacks"), joinPath(mattFolder, "ResourcePacks")]
   MineFolders: array[3, MineFolder] = [ModsFolder, ConfigFolder, ResourcePacksFolder]
 
-proc ExportSettings () =
+proc ExportSettings* () =
   let jsonObject = %* {mineCraftFolderJson: mineCraftFolder, mattFolderJson: mattFolder}
   writeFile(settingsFile, $ jsonObject)
 
-proc ImportSettings () =
+proc ImportSettings* () =
   let parsedObject = parseFile(settingsFile)
   mineCraftFolder = parsedObject[mineCraftFolderJson].getStr
   mattFolder = parsedObject[mattFolderJson].getStr
 
-proc SetupMattMiner () =
+proc SetupMattMiner* () =
   #step 1, move all MineFolders to MattFolder location
   #step 2, create all symlinks
   for MFolder in MineFolders:
     moveDir(MFolder[1], MFolder[2])
     createSymlink(MFolder[2], MFolder[1])
-  

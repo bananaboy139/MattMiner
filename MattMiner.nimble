@@ -5,7 +5,6 @@ author        = "bananaboy139"
 description   = "A MultiMC mod, config, resourcepack updater tool"
 license       = "MIT"
 srcDir        = "src"
-bin           = @["MattMiner"]
 
 
 # Dependencies
