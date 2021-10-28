@@ -1,0 +1,1 @@
+nim c -d:release --header --noMain --app:lib src/MattMiner.nim

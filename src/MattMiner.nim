@@ -28,16 +28,20 @@ var
   ResourcePacksFolder: MineFolder = [joinPath(mineCraftFolder, "ResourcePacks"), joinPath(mattFolder, "ResourcePacks")]
   MineFolders: array[3, MineFolder] = [ModsFolder, ConfigFolder, ResourcePacksFolder]
 
-proc ExportSettings* () =
+proc SetFolders* (MinecraftFolder: string, MattFolder: string) {.cdecl, exportc, dynlib.} =
+  mineCraftFolder = MinecraftFolder
+  mattFolder = MattFolder
+
+proc ExportSettings* () {.cdecl, exportc, dynlib.} =
   let jsonObject = %* {mineCraftFolderJson: mineCraftFolder, mattFolderJson: mattFolder}
   writeFile(settingsFile, $ jsonObject)
 
-proc ImportSettings* () =
+proc ImportSettings* () {.cdecl, exportc, dynlib.} =
   let parsedObject = parseFile(settingsFile)
   mineCraftFolder = parsedObject[mineCraftFolderJson].getStr
   mattFolder = parsedObject[mattFolderJson].getStr
 
-proc SetupMattMiner* () =
+proc SetupMattMiner* () {.cdecl, exportc, dynlib.} =
   #step 1, move all MineFolders to MattFolder location
   #step 2, create all symlinks
   for MFolder in MineFolders:
